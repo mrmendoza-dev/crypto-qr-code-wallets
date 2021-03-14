@@ -2,6 +2,7 @@ import qrcode
 import requests
 import pyautogui
 
+#Folder to save qr code images to
 folder = 'qr_wallets'
 
 
@@ -11,7 +12,7 @@ def clear_screen():
     #clear screen in PyCharm
     pyautogui.hotkey('ctrl', 'l')
 
-
+#Call API to retrieve list of Top 10 cryptos
 def get_top_10_cryptos():
     top_10_list = []
     r = requests.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false')
@@ -29,7 +30,7 @@ def get_top_10_cryptos():
         top_10_list.append(crypto_dict)
     return top_10_list
 
-
+#Define qr class
 def create_qr_class():
     qr = qrcode.QRCode(
         version=1,
@@ -39,7 +40,7 @@ def create_qr_class():
     )
     return qr
 
-
+#Takes in qr class object, list of top 10 cryptos, and selection (based on rank)
 def create_qr_wallet(qr, cryptos, select):
     for item in cryptos:
         if item.get('rank') == select:
@@ -56,7 +57,7 @@ def create_qr_wallet(qr, cryptos, select):
             break
 
 
-
+#Print out menu for selecting a crypto
 def print_menu(cryptos):
     print('Create QR Code Wallets for Top 10 Cryptocurrencies')
     for item in cryptos:
